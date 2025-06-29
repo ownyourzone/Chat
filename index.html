@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trimite un mesaj</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+      text-align: center;
+    }
+
+    textarea {
+      width: 90%;
+      height: 120px;
+      font-size: 16px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      background: #1c1c1c;
+      color: white;
+      resize: none;
+    }
+
+    button {
+      background: #8B0000;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Ai ceva de zis? Spune aici.</h1>
+  <textarea id="msg" placeholder="Scrie anonim..."></textarea>
+  <br>
+  <button onclick="sendMsg()">Trimite</button>
+  <p id="status"></p>
+
+  <script>
+    function sendMsg() {
+      const text = document.getElementById("msg").value.trim();
+      const status = document.getElementById("status");
+
+      if (!text) {
+        status.innerText = "Scrie ceva mai întâi.";
+        return;
+      }
+
+      fetch("https://discord.com/api/webhooks/WEBHOOKUL_TAU_AICI", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: text })
+      })
+      .then(() => {
+        status.innerText = "Mesaj trimis!";
+        document.getElementById("msg").value = "";
+      })
+      .catch(() => {
+        status.innerText = "Eroare la trimitere.";
+      });
+    }
+  </script>
+</body>
+</html>
