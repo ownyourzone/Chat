@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
   <meta charset="UTF-8" />
-  <title>Trimite un mesaj</title>
+  <title>Text</title>
   <style>
     body {
       background-color: #0a0a0a;
@@ -42,8 +42,8 @@
 </head>
 <body>
 
-  <h1>Ai ceva de zis? Spune aici.</h1>
-  <textarea id="msg" placeholder="Scrie anonim..."></textarea>
+  <h1>One Way Chat</h1>
+  <textarea id="msg" placeholder="Write here..."></textarea>
   <br>
   <button onclick="sendMsg()">Trimite</button>
   <p id="status"></p>
@@ -54,21 +54,21 @@
       const status = document.getElementById("status");
 
       if (!text) {
-        status.innerText = "Scrie ceva mai întâi.";
+        status.innerText = "Write something first.";
         return;
       }
 
-      fetch("https://discord.com/api/webhooks/WEBHOOKUL_TAU_AICI", {
+      fetch("https://discord.com/api/webhooks/1388990000322052226/8lI4Nbsvx3vulkYqIgRL-oMlaYVVwQtbYkgVippDkZU4zxQvosCmSoPCAmNc9sSjOuRS", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: text })
       })
       .then(() => {
-        status.innerText = "Mesaj trimis!";
+        status.innerText = "Sent";
         document.getElementById("msg").value = "";
       })
       .catch(() => {
-        status.innerText = "Eroare la trimitere.";
+        status.innerText = "Error";
       });
     }
   </script>
