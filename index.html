@@ -1,100 +1,95 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8" />
-  <title>One Way Chat</title>
+  <meta charset="UTF-8">
+  <title>Existential Orbit</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
-      background-color: #0a0a0a;
+      background: #0a0a0a;
       color: white;
       font-family: 'Courier New', monospace;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      padding: 20px;
-      text-align: center;
+      overflow: hidden;
     }
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 30px;
+    .container {
+      position: relative;
+      width: 400px;
+      height: 400px;
     }
 
-    textarea {
-      width: 90%;
-      max-width: 800px;
-      height: 200px;
-      font-size: 1.5rem;
-      padding: 20px;
-      background: #1c1c1c;
-      color: #fff;
-      border: 2px solid #8B0000;
-      border-radius: 10px;
-      resize: none;
-      margin-bottom: 30px;
+    .svg-head {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 220px;
+      height: auto;
+      transform: translate(-50%, -50%);
+      opacity: 0.85;
     }
 
-    button {
-      font-size: 1.5rem;
-      padding: 15px 40px;
-      background: #8B0000;
-      border: none;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
+    .orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      animation: rotate 20s linear infinite;
     }
 
-    button:hover {
-      background: #a30000;
+    .orbit span {
+      position: absolute;
+      color: #bbb;
+      font-size: 1rem;
+      white-space: nowrap;
+      transform-origin: 0 0;
     }
 
-    #status {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      font-style: italic;
-      color: #aaaaaa;
+    @keyframes rotate {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <img class="svg-head" src="https://www.svgrepo.com/download/141722/male-head-side-view-with-brains.svg" alt="head with brain"/>
 
-  <h1>One Way Chat</h1>
-
-  <textarea id="msg" placeholder="Write here..."></textarea><br>
-  <button onclick="sendMsg()">Send</button>
-  <div id="status"></div>
+    <div class="orbit" id="orbit"></div>
+  </div>
 
   <script>
-    function sendMsg() {
-      const text = document.getElementById("msg").value.trim();
-      const status = document.getElementById("status");
+    const texts = [
+      "Who is God?",
+      "Why do we lie?",
+      "What is real?",
+      "Is death the end?",
+      "Are we free?",
+      "Does time exist?",
+      "Am I alone?",
+      "What is betrayal?",
+      "Who watches us?",
+      "Why exist at all?"
+    ];
 
-      if (!text) {
-        status.innerText = "Write something...";
-        return;
-      }
+    const orbit = document.getElementById("orbit");
+    const radius = 170;
 
-      fetch("https://discord.com/api/webhooks/1388990000322052226/8lI4Nbsvx3vulkYqIgRL-oMlaYVVwQtbYkgVippDkZU4zxQvosCmSoPCAmNc9sSjOuRS", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: text })
-      })
-      .then(() => {
-        status.innerText = "Sent";
-        document.getElementById("msg").value = "";
-      })
-      .catch(() => {
-        status.innerText = "Error";
-      });
-    }
+    texts.forEach((text, i) => {
+      const angle = (i / texts.length) * 2 * Math.PI;
+      const x = radius * Math.cos(angle);
+      const y = radius * Math.sin(angle);
+
+      const span = document.createElement("span");
+      span.innerText = text;
+      span.style.left = `${x}px`;
+      span.style.top = `${y}px`;
+      orbit.appendChild(span);
+    });
   </script>
 </body>
 </html>
